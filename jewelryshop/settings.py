@@ -75,8 +75,8 @@ DATABASES = {
         'NAME': os.environ.get('DB_NAME', 'ecommerce'),
         'USER': os.environ.get('DB_USER', 'root'),
         'PASSWORD': os.environ.get('DB_PASSWORD', 'root'),
-        'HOST': os.environ.get('DB_HOST', 'kafka-128c4a51-adithyan-cffe.l.aivencloud.com'),
-        'PORT': os.environ.get('DB_PORT', '28503'),
+        'HOST': os.environ.get('DB_HOST', 'localhost'),
+        'PORT': os.environ.get('DB_PORT', '3306'),
     }
 }
 
