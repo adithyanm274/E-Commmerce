@@ -1,10 +1,6 @@
 
 
 from pathlib import Path
-<<<<<<< HEAD
-import dj_database_url
-=======
->>>>>>> 49530411531683ee96130a56cc95c19a9e5897d4
 
 import os
 
@@ -78,13 +74,12 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'ecommerce',
         'USER':'root',
-<<<<<<< HEAD
         'PASSWORD':'root',
-=======
         'PASSWORD':'',
->>>>>>> 49530411531683ee96130a56cc95c19a9e5897d4
         'HOST':'localhost',
-        'PORT':'3306',    }
+        'PORT':'3306',    
+        
+    }
 }
 
 
