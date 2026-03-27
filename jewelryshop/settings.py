@@ -146,7 +146,7 @@ WSGI_APPLICATION = 'jewelryshop.wsgi.application'
 
 DATABASES = {
     'default': dj_database_url.config(
-        default='mysql://root:root@localhost:3306/ecommerce',
+        default=os.environ.get("DATABASE_URL"),
         conn_max_age=600
     )
 }
