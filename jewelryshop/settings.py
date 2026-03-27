@@ -68,6 +68,8 @@ WSGI_APPLICATION = 'jewelryshop.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
+import dj_database_url
+
 DATABASES = {
     'default': dj_database_url.config(
         default='mysql://root:root@localhost:3306/ecommerce'
