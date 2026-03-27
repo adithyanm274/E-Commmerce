@@ -1,7 +1,7 @@
 
 
 from pathlib import Path
-
+import dj_database_url
 import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -17,8 +17,7 @@ SECRET_KEY = 'django-insecure-3%y3laftm62q0zaj+s7#p-xqq9(&#q+)s8)p-&#&bz*0$!xu$0
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['e-commmerce-1-6xym.onrender.com']
-
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'e-commmerce-1-6xym.onrender.com']
 
 # Application definition
 
@@ -72,11 +71,11 @@ WSGI_APPLICATION = 'jewelryshop.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': os.environ.get('DB_NAME', 'ecommerce'),
-        'USER': os.environ.get('DB_USER', 'root'),
-        'PASSWORD': os.environ.get('DB_PASSWORD', 'root'),
-        'HOST': os.environ.get('DB_HOST', 'localhost'),
-        'PORT': os.environ.get('DB_PORT', '3306'),
+        'NAME': 'ecommerce',
+        'USER': 'root',
+        'PASSWORD': 'root',
+        'HOST': 'localhost',
+        'PORT': '3306',
     }
 }
 
@@ -137,3 +136,5 @@ EMAIL_USE_TLS= True
 EMAIL_PORT= 587
 EMAIL_HOST_USER='adithyan.m.2742001@gmail.com'
 EMAIL_HOST_PASSWORD= 'myvacfmryrtrarxa'
+
+
