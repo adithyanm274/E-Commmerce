@@ -1,0 +1,8 @@
+{
+  "build": {
+    "commands": {
+      "predeploy": "python manage.py collectstatic --noinput",
+      "start": "gunicorn jewelryshop.wsgi"
+    }
+  }
+}
