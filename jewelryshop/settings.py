@@ -95,10 +95,17 @@ USE_I18N = True
 USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
-STATIC_URL = '/static/'
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'jewelryshop/static')]
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')  # Collected in production
+# 1. Where Django looks for static files during development
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'jewelryshop/static'),
+]
 
+# 2. Where Django MOVES all files for production (Railway)
+# Change the name to 'staticfiles' to avoid conflicts with your source folders
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles') 
+
+# 3. The URL used to access these files in the browser
+STATIC_URL = '/static/'
 
 # Whitenoise compression and caching (optional but recommended)
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
@@ -114,6 +121,7 @@ EMAIL_HOST='smtp.gmail.com'
 EMAIL_USE_TLS= True
 EMAIL_PORT= 587
 EMAIL_HOST_USER='adithyan.m.2742001@gmail.com'
-EMAIL_HOST_PASSWORD= 'myvacfmryrtrarxa'
+EMAIL_HOST_PASSWORD= 'fwuk umwc nzaa hcwp'
+
 
 

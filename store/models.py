@@ -7,6 +7,7 @@ class Address(models.Model):
     locality = models.CharField(max_length=150, verbose_name="Nearest Location")
     city = models.CharField(max_length=150, verbose_name="City")
     state = models.CharField(max_length=150, verbose_name="State")
+    country = models.CharField(max_length=100, blank=True, null=True)
 
     def __str__(self):
         return self.locality

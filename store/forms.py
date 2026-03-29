@@ -32,9 +32,16 @@ class LoginForm(AuthenticationForm):
 class AddressForm(forms.ModelForm):
     class Meta:
         model = Address
-        fields = ['locality', 'city', 'state']
-        widgets = {'locality':forms.TextInput(attrs={'class':'form-control', 'placeholder':'Popular Place like Restaurant, Religious Site, etc.'}), 'city':forms.TextInput(attrs={'class':'form-control', 'placeholder':'City'}), 'state':forms.TextInput(attrs={'class':'form-control', 'placeholder':'State or Province'})}
-
+        # 1. Add 'country' to the fields list
+        fields = ['locality', 'city', 'state', 'country'] 
+        
+        widgets = {
+            'locality': forms.TextInput(attrs={'class':'form-control', 'placeholder':'Popular Place...'}),
+            'city': forms.TextInput(attrs={'class':'form-control', 'placeholder':'City'}),
+            'state': forms.TextInput(attrs={'class':'form-control', 'placeholder':'State or Province'}),
+            # 2. Add the country widget with the 'country' class for your JS
+            'country': forms.Select(attrs={'class': 'form-control country'}), 
+        }
 
 class PasswordChangeForm(PasswordChangeForm):
     old_password = forms.CharField(label=_("Old Password"), strip=False, widget=forms.PasswordInput(attrs={'autocomplete':'current-password', 'auto-focus':True, 'class':'form-control', 'placeholder':'Current Password'}))
