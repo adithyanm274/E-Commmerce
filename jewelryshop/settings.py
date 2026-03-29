@@ -19,7 +19,7 @@ ALLOWED_HOSTS = [
     'e-commerce-web.up.railway.app',
 ]
 # Add this to fix CSRF errors
-CSRF_TRUSTED_ORIGINS = ['https://web-production-e4b2d.up.railway.app']
+CSRF_TRUSTED_ORIGINS = ['https://e-commerce-web.up.railway.app']
 
 # Application definition
 INSTALLED_APPS = [
