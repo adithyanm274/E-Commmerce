@@ -121,7 +121,9 @@ EMAIL_HOST='smtp.gmail.com'
 EMAIL_USE_TLS= True
 EMAIL_PORT= 587
 EMAIL_HOST_USER='adithyan.m.2742001@gmail.com'
-EMAIL_HOST_PASSWORD= 'fwuk umwc nzaa hcwp'
+EMAIL_HOST_PASSWORD= 'rvjg cual cckp ltim'
 
 
-
+# Add this to test with a different email
+DEFAULT_FROM_EMAIL = 'adithyan.m.2742001@gmail.com'
+SERVER_EMAIL = 'adithyan.m.2742001@gmail.com'
