@@ -121,10 +121,10 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_USE_TLS = True
 EMAIL_USE_SSL = False
 EMAIL_PORT = 587
-EMAIL_HOST_USER = 'adithyan.m.2742001@gmail.com'
+EMAIL_HOST_USER = 'adhimca23@gmail.com'
 EMAIL_HOST_PASSWORD = ''  # Your app password
-DEFAULT_FROM_EMAIL = 'adithyan.m.2742001@gmail.com'
-SERVER_EMAIL = 'adithyan.m.2742001@gmail.com'
+DEFAULT_FROM_EMAIL = 'adhimca23@gmail.com'
+SERVER_EMAIL = 'adhimca23@gmail.com'
 
 # Add at the bottom of settings.py
 import logging
