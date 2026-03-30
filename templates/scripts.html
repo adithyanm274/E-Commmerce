@@ -11,13 +11,11 @@
       <script src="{% static 'js/front.js' %}"></script>
 
   <script>
+  // 1. Price Slider Initialization
   var range = document.getElementById('range');
   if (range) {
     noUiSlider.create(range, {
-        range: {
-            'min': 0,
-            'max': 2000
-        },
+        range: { 'min': 0, 'max': 2000 },
         step: 5,
         start: [100, 1000],
         margin: 300,
@@ -27,42 +25,45 @@
         behaviour: 'tap-drag',
         tooltips: true,
         format: {
-          to: function ( value ) {
-            return '$' + value;
-          },
-          from: function ( value ) {
-            return value.replace('$', '');
-          }
+          to: function ( value ) { return '$' + value; },
+          from: function ( value ) { return value.replace('$', ''); }
         }
     });
-  } else {
-    // Silent fail – no slider on this page
-    console.log("Slider not initialized: #range missing");
   }
-        // ------------------------------------------------------- //
-        //   Inject SVG Sprite - 
-        //   see more here 
-        //   https://css-tricks.com/ajaxing-svg-sprite/
-        // ------------------------------------------------------ //
-        function injectSvgSprite(path) {
-        
-            var ajax = new XMLHttpRequest();
-            ajax.open("GET", path, true);
-            ajax.send();
-            ajax.onload = function(e) {
-            var div = document.createElement("div");
-            div.className = 'd-none';
-            div.innerHTML = ajax.responseText;
-            document.body.insertBefore(div, document.body.childNodes[0]);
-            }
-        }
-        // this is set to BootstrapTemple website as you cannot 
-        // inject local SVG sprite (using only 'icons/orion-svg-sprite.svg' path)
-        // while using file:// protocol
-        // pls don't forget to change to your domain :)
-        injectSvgSprite('/static/icons/orion-svg-sprite.svg');
-        
-      </script>
+
+  // 2. Country Dropdown Loader
+  $(document).ready(function () {
+    const $countrySelect = $("select.country");
+    if ($countrySelect.length > 0) {
+        $.getJSON('/static/js/countries.json', function (data) {
+            $countrySelect.empty();
+            $countrySelect.append('<option value="">Select Country</option>');
+            $.each(data, function (key, value) {
+                var selectOption = `<option value="${value.name}" data-dial-code="${value.dial_code}">${value.name}</option>`;
+                $countrySelect.append(selectOption);
+            });
+        }).fail(function() {
+            console.error("Failed to load /static/js/countries.json");
+        });
+    }
+  });
+
+  // 3. SVG Sprite Injector
+  function injectSvgSprite(path) {
+      var ajax = new XMLHttpRequest();
+      ajax.open("GET", path, true);
+      ajax.send();
+      ajax.onload = function(e) {
+          var div = document.createElement("div");
+          div.className = 'd-none';
+          div.innerHTML = ajax.responseText;
+          document.body.insertBefore(div, document.body.childNodes[0]);
+      }
+  }
+  
+  // Execute SVG injection
+  injectSvgSprite('/static/icons/orion-svg-sprite.svg');
+</script>
       <!-- FontAwesome CSS - loading as last, so it doesn't block rendering-->
       <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
     </div>
