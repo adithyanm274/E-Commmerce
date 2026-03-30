@@ -122,6 +122,6 @@ EMAIL_USE_TLS = True
 EMAIL_USE_SSL = False
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'adithyan.m.2742001@gmail.com'
-EMAIL_HOST_PASSWORD = 'rvjg cual cckp ltim'  # Your app password
+EMAIL_HOST_PASSWORD = '#'  # Your app password
 DEFAULT_FROM_EMAIL = 'adithyan.m.2742001@gmail.com'
 SERVER_EMAIL = 'adithyan.m.2742001@gmail.com'
