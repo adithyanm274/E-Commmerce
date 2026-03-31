@@ -16,10 +16,10 @@ DEBUG = os.environ.get('DEBUG', 'True') == 'True'
 ALLOWED_HOSTS = [
     '127.0.0.1',
     'localhost',
-    'e-commerce-web.up.railway.app',
+    'e-commerce-web-app.up.railway.app',
 ]
 # Add this to fix CSRF errors
-CSRF_TRUSTED_ORIGINS = ['https://e-commerce-web.up.railway.app']
+CSRF_TRUSTED_ORIGINS = ['https://e-commerce-web-app.up.railway.app']
 
 # Application definition
 INSTALLED_APPS = [
