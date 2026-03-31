@@ -18,6 +18,10 @@ ALLOWED_HOSTS = [
     'localhost',
     'e-commerce-web-app.up.railway.app',
 ]
+
+SITE_ID = 1
+
+
 # Add this to fix CSRF errors
 CSRF_TRUSTED_ORIGINS = ['https://e-commerce-web-app.up.railway.app']
 
@@ -30,6 +34,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.humanize',
+    'django.contrib.sites',
     'store',
 ]
 
@@ -116,7 +121,8 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Email settings - SMTP
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
