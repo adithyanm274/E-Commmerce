@@ -8,20 +8,23 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Security settings – use environment variables in production
 SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-3%y3laftm62q0zaj+s7#p-xqq9(&#q+)s8)p-&#&bz*0$!xu$0')
-DEBUG = os.environ.get('DEBUG', 'True') == 'True'
+DEBUG = os.environ.get('DEBUG', 'False') == 'True'  # Defaults to False
 
 ALLOWED_HOSTS = [
     '127.0.0.1',
     'localhost',
-    'e-commerce-web-app.up.railway.app',
+    'e-commmerce-qbhy.onrender.com',
+    '.onrender.com',
 ]
 
 SITE_ID = 1
 
 
 # Add this to fix CSRF errors
-CSRF_TRUSTED_ORIGINS = ['https://e-commerce-web-app.up.railway.app']
-
+CSRF_TRUSTED_ORIGINS = [
+    'https://e-commmerce-qbhy.onrender.com',
+    'https://*.onrender.com',
+]
 # Application definition
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -132,7 +135,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 import resend
 
 RESEND_API_KEY = os.environ.get('RESEND_API_KEY')
-# RESEND_API_KEY = os.environ.get('re_VLwK5h8V_P19U5TeBZLEijoZo3Sx2Asey')
 DEFAULT_FROM_EMAIL = 'onboarding@resend.dev'  # Or your verified domain
 
 # Use a custom email backend (create store/email_backend.py as shown below)
