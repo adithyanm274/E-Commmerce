@@ -119,11 +119,12 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# Email settings - SMTP
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.sendgrid.net'
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'apikey'   # literal string "apikey"
-EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD', '')
-DEFAULT_FROM_EMAIL = 'adithyan.m.2742001@gmail.com'
+# Email Configuration
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'  # Use SMTP backend
+EMAIL_HOST = 'smtp.gmail.com'                                 # Gmail SMTP server address
+EMAIL_PORT = 587                                              # Port for TLS
+EMAIL_USE_TLS = True                                          # Use TLS for security
+EMAIL_USE_SSL = False                                         # Do not use SSL when TLS is active
+EMAIL_HOST_USER = os.environ.get('adithyan.m.2742001@gmail.com') # Your Gmail address
+EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD", '')   # Your 16-char App Password
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER 
