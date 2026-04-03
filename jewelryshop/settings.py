@@ -131,12 +131,19 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Email Configuration
-# Email Configuration using Resend
+# Email Configuration
 import resend
+import os
 
 RESEND_API_KEY = os.environ.get('RESEND_API_KEY')
-DEFAULT_FROM_EMAIL = 'onboarding@resend.dev'  # Or your verified domain
 
-# Use a custom email backend (create store/email_backend.py as shown below)
-EMAIL_BACKEND = 'store.email_backend.ResendEmailBackend'
-
+# Choose backend based on environment
+if DEBUG:
+    # Local development: print emails to console (no actual sending)
+    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+else:
+    # Production on Render: use Resend API
+    if not RESEND_API_KEY:
+        raise ValueError("RESEND_API_KEY environment variable is not set in production!")
+    EMAIL_BACKEND = 'store.email_backend.ResendEmailBackend'
+    DEFAULT_FROM_EMAIL = 'onboarding@resend.dev'
