@@ -1,12 +1,13 @@
-#!/usr/bin/env bash
+#!/bin/bash
+
 # Exit on error
 set -o errexit
 
-# Install dependencies
+echo "Installing dependencies..."
 pip install -r requirements.txt
 
-# Collect static files
-python manage.py collectstatic --no-input
+echo "Collecting static files..."
+python manage.py collectstatic --noinput
 
-# Apply database migrations
+echo "Applying database migrations..."
 python manage.py migrate
