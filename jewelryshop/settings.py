@@ -150,7 +150,7 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'adithyan.m.2742001@gmail.com'
-EMAIL_HOST_PASSWORD = 'your-app-password'  # Generate from Google Account > App Passwords
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD', '')  # Generate from Google Account > App Passwords
 DEFAULT_FROM_EMAIL = 'adithyan.m.2742001@gmail.com'
 
 # ------------------------------------------------------------------
