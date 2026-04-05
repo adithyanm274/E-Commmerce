@@ -152,7 +152,9 @@ RESEND_API_KEY = os.environ.get('RESEND_API_KEY')
 if DEBUG:
     EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 else:
-    if not RESEND_API_KEY:
+    # Only raise error if we are NOT running a management command (like collectstatic)
+    import sys
+    if 'collectstatic' not in sys.argv and not RESEND_API_KEY:
         raise ValueError("RESEND_API_KEY environment variable is not set in production!")
     EMAIL_BACKEND = 'store.email_backend.ResendEmailBackend'
     DEFAULT_FROM_EMAIL = 'onboarding@resend.dev'
