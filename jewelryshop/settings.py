@@ -145,19 +145,13 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # ------------------------------------------------------------------
 # Email – Resend (production) / console (development)
 # ------------------------------------------------------------------
-import resend
-
-RESEND_API_KEY = os.environ.get('RESEND_API_KEY')
-
-if DEBUG:
-    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-else:
-    # Only raise error if we are NOT running a management command (like collectstatic)
-    import sys
-    if 'collectstatic' not in sys.argv and not RESEND_API_KEY:
-        raise ValueError("RESEND_API_KEY environment variable is not set in production!")
-    EMAIL_BACKEND = 'store.email_backend.ResendEmailBackend'
-    DEFAULT_FROM_EMAIL = 'onboarding@resend.dev'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'adithyan.m.2742001@gmail.com'
+EMAIL_HOST_PASSWORD = 'your-app-password'  # Generate from Google Account > App Passwords
+DEFAULT_FROM_EMAIL = 'adithyan.m.2742001@gmail.com'
 
 # ------------------------------------------------------------------
 # Logging
