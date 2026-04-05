@@ -2,30 +2,34 @@ import os
 from pathlib import Path
 import dj_database_url
 
-
 # Build paths inside the project
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+# ------------------------------------------------------------------
 # Security settings – use environment variables in production
+# ------------------------------------------------------------------
 SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-3%y3laftm62q0zaj+s7#p-xqq9(&#q+)s8)p-&#&bz*0$!xu$0')
 DEBUG = os.environ.get('DEBUG', 'False') == 'True'  # Defaults to False
 
+# ------------------------------------------------------------------
+# Hosts & trusted origins – Render sets RENDER_EXTERNAL_HOSTNAME
+# ------------------------------------------------------------------
 ALLOWED_HOSTS = [
     '127.0.0.1',
     'localhost',
-    'e-commmerce-qbhy.onrender.com',
-    '.onrender.com',
 ]
+if os.environ.get('RENDER_EXTERNAL_HOSTNAME'):
+    ALLOWED_HOSTS.append(os.environ['RENDER_EXTERNAL_HOSTNAME'])
+
+CSRF_TRUSTED_ORIGINS = []
+if os.environ.get('RENDER_EXTERNAL_HOSTNAME'):
+    CSRF_TRUSTED_ORIGINS.append(f'https://{os.environ["RENDER_EXTERNAL_HOSTNAME"]}')
 
 SITE_ID = 1
 
-
-# Add this to fix CSRF errors
-CSRF_TRUSTED_ORIGINS = [
-    'https://e-commmerce-qbhy.onrender.com',
-    'https://*.onrender.com',
-]
+# ------------------------------------------------------------------
 # Application definition
+# ------------------------------------------------------------------
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -39,7 +43,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',   # now correct position
+    'whitenoise.middleware.WhiteNoiseMiddleware',   # works fine on PythonAnywhere & Render
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -70,24 +74,34 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'jewelryshop.wsgi.application'
 
-# Database
-# -----------------------------------------------------------------
-# Use DATABASE_URL if set (e.g., on Railway or custom MySQL), otherwise fallback to SQLite.
-# For MySQL, set DATABASE_URL like:
-#   mysql://USER:PASSWORD@HOST:PORT/DBNAME
-# Example: mysql://root:password@localhost:3306/jewelryshop_db
-# To create the database, run: CREATE DATABASE jewelryshop_db CHARACTER SET utf8mb4;
-# Check if we're running on Render (or any platform that sets DATABASE_URL)
-if 'DATABASE_URL' in os.environ:
-    # Production: Use PostgreSQL from Render
+# ------------------------------------------------------------------
+# Database – SQLite (local), MySQL (PythonAnywhere), PostgreSQL (Render)
+# ------------------------------------------------------------------
+if os.environ.get('ON_PYTHONANYWHERE') == 'True':
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.mysql',
+            'NAME': os.environ['PA_MYSQL_NAME'],
+            'USER': os.environ['PA_MYSQL_USER'],
+            'PASSWORD': os.environ['PA_MYSQL_PASSWORD'],
+            'HOST': os.environ['PA_MYSQL_HOST'],
+            'PORT': '3306',
+            'OPTIONS': {
+                'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
+                'charset': 'utf8mb4',
+            },
+        }
+    }
+elif 'DATABASE_URL' in os.environ:
+    # ------------------- Render (PostgreSQL) -------------------
     DATABASES = {
         'default': dj_database_url.config(
             conn_max_age=600,
-            ssl_require=True  # Render requires SSL for PostgreSQL
+            ssl_require=True
         )
     }
 else:
-    # Local development: Use SQLite
+    # ------------------- Local development (SQLite) -------------------
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
@@ -95,7 +109,9 @@ else:
         }
     }
 
+# ------------------------------------------------------------------
 # Password validation
+# ------------------------------------------------------------------
 AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
     {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator'},
@@ -103,26 +119,22 @@ AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator'},
 ]
 
+# ------------------------------------------------------------------
 # Internationalization
+# ------------------------------------------------------------------
 LANGUAGE_CODE = 'en-us'
 TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_TZ = True
 
-# Static files (CSS, JavaScript, Images)
-# 1. Where Django looks for static files during development
+# ------------------------------------------------------------------
+# Static & media files (WhiteNoise handles static in production)
+# ------------------------------------------------------------------
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'jewelryshop/static'),
 ]
-
-# 2. Where Django MOVES all files for production (Railway)
-# Change the name to 'staticfiles' to avoid conflicts with your source folders
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles') 
-
-# 3. The URL used to access these files in the browser
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATIC_URL = '/static/'
-
-# Whitenoise compression and caching (optional but recommended)
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 MEDIA_URL = '/media/'
@@ -130,27 +142,24 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# Email Configuration
-# Email Configuration
+# ------------------------------------------------------------------
+# Email – Resend (production) / console (development)
+# ------------------------------------------------------------------
 import resend
-import os
 
 RESEND_API_KEY = os.environ.get('RESEND_API_KEY')
 
-# Choose backend based on environment
 if DEBUG:
-    # Local development: print emails to console (no actual sending)
     EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 else:
-    # Production on Render: use Resend API
     if not RESEND_API_KEY:
         raise ValueError("RESEND_API_KEY environment variable is not set in production!")
     EMAIL_BACKEND = 'store.email_backend.ResendEmailBackend'
     DEFAULT_FROM_EMAIL = 'onboarding@resend.dev'
-    
-    
 
-
+# ------------------------------------------------------------------
+# Logging
+# ------------------------------------------------------------------
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
@@ -163,4 +172,14 @@ LOGGING = {
         'handlers': ['console'],
         'level': 'INFO',
     },
-}    
+}
+
+# ------------------------------------------------------------------
+# Security settings for Render (HTTPS / proxy)
+# ------------------------------------------------------------------
+if not DEBUG and os.environ.get('RENDER'):
+    # Tell Django that the proxy (Render) sends HTTPS traffic
+    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+    # Enforce secure cookies
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
