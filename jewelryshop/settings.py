@@ -145,21 +145,17 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# ------------------------------------------------------------------
-# Email – Resend (production) / console (development)
-# ------------------------------------------------------------------
-# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+# Email – SendGrid on Render (port 2525)
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 587
-# EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'adithyan.m.2742001@gmail.com'
-EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD', '')  # Generate from Google Account > App Passwords
-DEFAULT_FROM_EMAIL = 'adithyan.m.2742001@gmail.com'
+EMAIL_HOST = 'smtp.sendgrid.net'
+EMAIL_PORT = 2525               # Works on Render's free tier!
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'apikey'      # This is the literal string 'apikey'
+EMAIL_HOST_PASSWORD = os.environ.get('SENDGRID_API_KEY')
+DEFAULT_FROM_EMAIL = 'adithyan.m.2742001@gmail.com'  # Your verified sender
 
 # ------------------------------------------------------------------
 # Logging
-# ------------------------------------------------------------------
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
